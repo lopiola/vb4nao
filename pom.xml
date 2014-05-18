@@ -8,6 +8,17 @@
     <artifactId>vb4nao</artifactId>
     <version>1.0</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>naoqi</groupId>
+            <artifactId>naoqi</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jnaoqi-1.14.5.jar</systemPath>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
