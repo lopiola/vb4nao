@@ -1,4 +1,4 @@
-package pl.edu.agh.toik.vb4nao;
+package pl.edu.agh.toik.vb4nao.util;
 
 /**
  * Created by lopiola on 18.05.14.
