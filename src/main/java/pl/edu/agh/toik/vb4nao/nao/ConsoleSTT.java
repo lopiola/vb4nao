@@ -16,6 +16,7 @@ public class ConsoleSTT extends Thread implements AbstractSTT {
 
     public ConsoleSTT() {
         wordQueue = new ConcurrentLinkedQueue<>();
+        logger.info("Enter words in the console");
         start();
     }
 
@@ -27,10 +28,10 @@ public class ConsoleSTT extends Thread implements AbstractSTT {
             while (true) {
                 String s = br.readLine();
                 if (s != null && !s.isEmpty()) {
-                    if (s.equals("quit")) {
+                    wordQueue.add(s);
+                    if (s.equals("finish")) {
                         break;
                     }
-                    wordQueue.add(s);
                 }
             }
         } catch (Exception e) {
@@ -47,5 +48,9 @@ public class ConsoleSTT extends Thread implements AbstractSTT {
     @Override
     public String pollWord() {
         return wordQueue.poll();
+    }
+
+    @Override
+    public void cleanUp() {
     }
 }

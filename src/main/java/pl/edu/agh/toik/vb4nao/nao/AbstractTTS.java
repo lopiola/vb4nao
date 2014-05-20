@@ -5,4 +5,5 @@ package pl.edu.agh.toik.vb4nao.nao;
  */
 public interface AbstractTTS {
     public void say(String text);
+    public void cleanUp();
 }

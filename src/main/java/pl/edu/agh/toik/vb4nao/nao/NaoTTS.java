@@ -16,4 +16,9 @@ public class NaoTTS implements AbstractTTS {
     public void say(String text) {
         tts.say(text);
     }
+
+    @Override
+    public void cleanUp() {
+        //tts.exit();
+    }
 }

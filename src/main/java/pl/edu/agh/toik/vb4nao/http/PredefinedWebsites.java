@@ -8,9 +8,9 @@ import java.util.HashMap;
 public class PredefinedWebsites {
     private static HashMap<String, String> sites = new HashMap<>();
     static {
-        sites.put("w3c", "http://w3c.org");
+        sites.put("ted", "http://ted.com");
         sites.put("apple", "http://apple.com");
-        sites.put("onet", "http://onet.pl");
+        sites.put("stack", "http://stackoverflow.com");
         sites.put("bbc", "http://bbc.co.uk");
     }
 

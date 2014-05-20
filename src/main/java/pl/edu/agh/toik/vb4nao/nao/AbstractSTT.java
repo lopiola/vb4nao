@@ -5,4 +5,5 @@ package pl.edu.agh.toik.vb4nao.nao;
  */
 public interface AbstractSTT {
     public String pollWord();
+    public void cleanUp();
 }

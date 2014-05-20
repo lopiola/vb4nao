@@ -10,4 +10,9 @@ public class ConsoleTTS implements AbstractTTS {
     public void say(String text) {
         System.out.println("Nao says: " + text);
     }
+
+    @Override
+    public void cleanUp() {
+
+    }
 }
