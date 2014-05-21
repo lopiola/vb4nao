@@ -1,12 +1,10 @@
 package pl.edu.agh.toik.vb4nao.http;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import pl.edu.agh.toik.vb4nao.util.Logger;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
 
 /**
  * Created by lopiola on 18.05.14.
@@ -16,39 +14,13 @@ public class Parser {
 
     public String parse(String url) {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-            // Aby zmniejszyc czas parsowania
-            factory.setNamespaceAware(false);
-            factory.setValidating(false);
-            factory.setFeature("http://xml.org/sax/features/namespaces", false);
-            factory.setFeature("http://xml.org/sax/features/validation", false);
-            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-
-            Document doc = factory.newDocumentBuilder().parse(url);
-            Element html = doc.getDocumentElement();
-            Element head = findElement(html, "head");
-            Element title = findElement(head, "title");
-
-            return title.getTextContent();
-        } catch (Exception e) {
+            Document doc = Jsoup.connect(url).get();
+            String title = doc.title();
+            return title;
+        } catch (IOException e) {
+            System.out.println("Could not access the website");
             e.printStackTrace();
             return null;
         }
-    }
-
-    private Element findElement(Element element, String tag) {
-        NodeList nodes = element.getChildNodes();
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node currentNode = nodes.item(i);
-            if (currentNode instanceof Element) {
-                Element currentElement = (Element) currentNode;
-                if (currentElement.getTagName().equals(tag)) {
-                    return (Element) currentNode;
-                }
-            }
-        }
-        return null;
     }
 }

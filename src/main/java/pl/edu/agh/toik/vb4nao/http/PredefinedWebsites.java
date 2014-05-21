@@ -12,6 +12,7 @@ public class PredefinedWebsites {
         sites.put("apple", "http://apple.com");
         sites.put("stack", "http://stackoverflow.com");
         sites.put("bbc", "http://bbc.co.uk");
+        sites.put("wiki", "http://en.wikipedia.org/wiki/Main_Page");
     }
 
     public static String get(String key) {
