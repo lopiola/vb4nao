@@ -58,8 +58,8 @@ public class Application {
                 logger.debug("Got new task: " + word);
                 String title = new Parser().parse(PredefinedWebsites.get(word));
                 if (title != null)
-                    tts.say("Page title is: " + title);
-                    logger.info("Page title is: " + title);
+                    tts.say("Reading the website: " + title);
+                    logger.info("Website content: " + title);
             }
         }
     }
