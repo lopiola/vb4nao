@@ -4,6 +4,7 @@ import pl.edu.agh.toik.vb4nao.util.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -46,8 +47,14 @@ public class ConsoleSTT extends Thread implements AbstractSTT {
     }
 
     @Override
-    public String pollWord() {
-        return wordQueue.poll();
+    public String pollWord(String[] dictionary) {
+        String word;
+        while ((word = wordQueue.poll()) != null) {
+            if (Arrays.asList(dictionary).indexOf(word) > -1) {
+                return word;
+            }
+        }
+        return null;
     }
 
     @Override

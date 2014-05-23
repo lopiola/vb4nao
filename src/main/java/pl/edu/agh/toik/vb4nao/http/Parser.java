@@ -15,7 +15,15 @@ import java.util.Iterator;
 public class Parser {
     Logger logger = new Logger(this.getClass());
 
-    public String parse(String url) {
+    // TODO this should return sections in format:
+    //    String[][] result = {
+    //            {"section 0 title", "section 0 content"},
+    //            {"section 1 title", "section 1 content"},
+    //            ...
+    //    };
+    // TODO or null if page doesnt exist or cannot be parsed
+
+    public String[][] parse(String url) {
         try {
             Document doc = Jsoup.connect(url).get();
 
@@ -23,32 +31,35 @@ public class Parser {
             Elements text = doc.select("p, h1, h2, h3, h4, h5, span");
 
             Iterator<Element> it = text.iterator();
-            while(it.hasNext() ) {
+            while (it.hasNext()) {
                 Element e = it.next();
                 // add interpunction to distinct between elements
-                if(!e.text().endsWith(".") && !e.text().endsWith("!") && !e.text().endsWith(":")) {
+                if (!e.text().endsWith(".") && !e.text().endsWith("!") && !e.text().endsWith(":")) {
                     e.appendText(".");
                 }
                 // add an additional space if there is none
                 e.appendText(" ");
 
                 // filter to short or obsolete paragraphs
-                if(e.tagName().equals("p") && (e.text().length() < 5 || e.text().contains("Copyright"))){
+                if (e.tagName().equals("p") && (e.text().length() < 5 || e.text().contains("Copyright"))) {
                     it.remove();
                 }
             }
 
+
             StringBuilder content = new StringBuilder(doc.title() + ". " + text.text());
 
             // Refining the final string
-            for(int i = 2; i < content.length(); ++i) {
-                if(content.substring(i-2,i+1).equals(". .")) {
-                     content.replace(i-2, i+1, ".");
+            for (int i = 2; i < content.length(); ++i) {
+                if (content.substring(i - 2, i + 1).equals(". .")) {
+                    content.replace(i - 2, i + 1, ".");
                 }
             }
-            return content.toString();
+            return new String[][]{
+                    {content.substring(content.indexOf(".")), content.toString()}
+            };
         } catch (IOException e) {
-            System.out.println("Could not access the website");
+            logger.error("Could not access the website");
             e.printStackTrace();
             return null;
         }

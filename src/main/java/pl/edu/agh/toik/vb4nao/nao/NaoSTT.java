@@ -21,12 +21,8 @@ public class NaoSTT implements AbstractSTT {
         memory = new ALMemoryProxy(ip, port);
         recog = new ALSpeechRecognitionProxy(ip, port);
 
-
-        String[] vocab = {"alphabet", "constellation", "mockingbird", "fantastically", "apple", "finish", "hello", "dog", "like", "boobs"};
-
         recog.setAudioExpression(true);
         recog.setVisualExpression(true);
-        recog.setVocabulary(vocab, true);
         recog.subscribe("WordRecognized");
         recog.setLanguage("English");
     }
@@ -40,7 +36,9 @@ public class NaoSTT implements AbstractSTT {
 
 
     @Override
-    public String pollWord() {
+    public String pollWord(String[] dictionary) {
+        // TODO nie wiem czy to bedzie dzialac jak tutaj ustawie
+        recog.setVocabulary(dictionary, true);
         Variant words = memory.getData("WordRecognized");
 
         String word = words.getElement(0).toString();
