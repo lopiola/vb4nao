@@ -6,4 +6,4 @@ cd $RUNNER_SCRIPT_DIR
 
 CP=`ls lib | grep jar | sed -e 's|^|lib/|' | tr '\n' ':'`
 
-java -Djava.library.path=lib/ -cp $CP pl.edu.agh.toik.vb4nao.Application
+java -Djava.library.path=lib/ -cp $CP pl.edu.agh.toik.vb4nao.Application $1

@@ -23,22 +23,28 @@ public class NaoSTT implements AbstractSTT {
 
         recog.setAudioExpression(true);
         recog.setVisualExpression(true);
-        recog.subscribe("WordRecognized");
         recog.setLanguage("English");
     }
 
     @Override
     public void cleanUp() {
-        recog.unsubscribe("WordRecognized");
         //recog.exit();
         //memory.exit();
     }
 
+    @Override
+    public void setDictionary(String[] dictionary) {
+        try {
+            recog.unsubscribe("WordRecognized");
+        } catch (Exception e) {
+        }
+        recog.setVocabulary(dictionary, true);
+        recog.subscribe("WordRecognized");
+    }
 
     @Override
-    public String pollWord(String[] dictionary) {
+    public String pollWord() {
         // TODO nie wiem czy to bedzie dzialac jak tutaj ustawie
-        recog.setVocabulary(dictionary, true);
         Variant words = memory.getData("WordRecognized");
 
         String word = words.getElement(0).toString();

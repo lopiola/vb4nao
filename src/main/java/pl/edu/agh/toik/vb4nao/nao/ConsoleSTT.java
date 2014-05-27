@@ -15,6 +15,8 @@ public class ConsoleSTT extends Thread implements AbstractSTT {
 
     private ConcurrentLinkedQueue<String> wordQueue;
 
+    private String[] dictionary;
+
     public ConsoleSTT() {
         wordQueue = new ConcurrentLinkedQueue<>();
         logger.info("Enter words in the console");
@@ -47,7 +49,12 @@ public class ConsoleSTT extends Thread implements AbstractSTT {
     }
 
     @Override
-    public String pollWord(String[] dictionary) {
+    public void setDictionary(String[] dictionary) {
+        this.dictionary = dictionary;
+    }
+
+    @Override
+    public String pollWord() {
         String word;
         while ((word = wordQueue.poll()) != null) {
             if (Arrays.asList(dictionary).indexOf(word) > -1) {

@@ -21,7 +21,8 @@ public class Application {
     private AbstractSTT stt;
     private Parser parser;
 
-    public void start() {
+
+    public void start(boolean startInConsole) {
         logger.info("vb4nao is starting...");
 
         Properties props = new Properties();
@@ -32,13 +33,17 @@ public class Application {
             e.printStackTrace();
         }
 
-        tts = new ConsoleTTS();
-//        tts = new NaoTTS(props.getProperty("nao.ip", "127.0.0.1"),
-//                Integer.parseInt(props.getProperty("nao.port", "9559")));
+        if (startInConsole) {
+            tts = new ConsoleTTS();
+            stt = new ConsoleSTT();
+        } else {
+            tts = new NaoTTS(props.getProperty("nao.ip", "127.0.0.1"),
+                    Integer.parseInt(props.getProperty("nao.port", "9559")));
 
-        stt = new ConsoleSTT();
-//        stt = new NaoSTT(props.getProperty("nao.ip", "127.0.0.1"),
-//                Integer.parseInt(props.getProperty("nao.port", "9559")));
+            stt = new ConsoleSTT();
+//            stt = new NaoSTT(props.getProperty("nao.ip", "127.0.0.1"),
+//                    Integer.parseInt(props.getProperty("nao.port", "9559")));
+        }
 
         parser = new Parser();
         logger.info("vb4nao started!");
@@ -116,7 +121,7 @@ public class Application {
                     if (word.equals(NAODictionary.COMMAND_EXIT)) state = State.EXITING;
                     else if (word.equals(NAODictionary.COMMAND_START)) state = State.STANDBY;
                     else if (word.equals(NAODictionary.COMMAND_OKAY)) state = State.LIST_SECTIONS;
-                    else if (word.equals(NAODictionary.COMMAND_NO))state = State.LISTEN_DICTATED;
+                    else if (word.equals(NAODictionary.COMMAND_NO)) state = State.LISTEN_DICTATED;
                     break;
 
                 case LIST_SECTIONS:
@@ -162,8 +167,9 @@ public class Application {
     }
 
     private String waitForWord(String[] dictionary) {
+        stt.setDictionary(dictionary);
         while (true) {
-            String word = stt.pollWord(dictionary);
+            String word = stt.pollWord();
             if (word == null) {
                 try {
                     Thread.sleep(200);
@@ -213,6 +219,7 @@ public class Application {
     }
 
     public static void main(String[] args) {
+        boolean startInConsole = (args.length == 1) && (args[0].equals("console"));
         final Application application = new Application();
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
@@ -223,6 +230,6 @@ public class Application {
                 }
             }
         });
-        application.start();
+        application.start(startInConsole);
     }
 }
