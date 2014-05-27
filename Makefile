@@ -9,5 +9,5 @@ compile:
 	cp properties.cfg release/
 
 run:
-	release/vb4nao.sh
+	release/vb4nao.sh console
 

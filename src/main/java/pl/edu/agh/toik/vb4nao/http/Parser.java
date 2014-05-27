@@ -33,7 +33,7 @@ public class Parser {
     public String[][] parse(String string_url) {
         try {
             URL url = new URL(string_url);
-            String text = DefaultExtractor.INSTANCE.getText(url);
+            String text = DefaultExtractor.INSTANCE.getText(url) + ArticleExtractor.INSTANCE.getText(url);
             text = text.replaceAll("\n",".\n");
 //            StringBuilder text = new StringBuilder(DefaultExtractor.INSTANCE.getText(url));
 

@@ -40,7 +40,6 @@ public class Application {
             tts = new NaoTTS(props.getProperty("nao.ip", "127.0.0.1"),
                     Integer.parseInt(props.getProperty("nao.port", "9559")));
 
-//            stt = new ConsoleSTT();
             stt = new NaoSTT(props.getProperty("nao.ip", "127.0.0.1"),
                     Integer.parseInt(props.getProperty("nao.port", "9559")));
         }
