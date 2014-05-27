@@ -1,39 +1,53 @@
 vb4nao
 ======
 
-Voice Browser for NAO
+Projekt umożliwia przeglądanie stron internetowych przy pomocy interfejsu głosowego robota Nao. Aplikacja pozwala na dyktowanie robotowi adresów dowolnych stron oraz korzystanie z predefiniowanych w programie adresów. Robot po dokonaniu parsowania umożliwia wybór poszczególnych sekcji strony, które może następnie przeczytać. Komunikacja między użytkownikiem, a robotem może przebiegać zarówno głosowo, jak i za pośrednictwem konsoli.
 
 1. Budowanie projektu
 ---------------------
 
+Do uruchomienia aplikacji potrzebne jest oprogramowanie:
+
+   - Java RE (w wersji 6 lub nowsza)
+   - Maven
+   - Git
+
+Aby zbudować i uruchomić program należy wykonać:
+
+    ~$ git clone https://github.com/lopiola/vb4nao.git
+    ~$ cd vb4nao/
     ~$ make
 
-Projekt zostanie zbudowany i wszystkie potrzebne pliki trafią do katalogu release
+Projekt zostanie ściągnięty, zbudowany i wszystkie potrzebne pliki trafią do katalogu release
 
 
 2. Uruchamianie aplikacji
 -------------------------
 
-    release ~$ ./vb4nao.sh
+Linux/OS X:
 
+    ~$ cd release/
+    release ~$ ./vb4nao.sh
+Windows:
+
+    ~$ cd release/
+    release ~$ vb4nao.cmd
 
 3. Symulowanie robota
 -------------------------
 
-Możliwe jest zasymulowanie NAO dzięki programowi webots. Wprawdzie nie ma obsługi mikrofonu i głośników, \ 
-ale w konsoli można zobaczyć tekst, jaki jest "mówiony" za pomocą tts. W ty mcelu należy odpalić webots, \
-sprawdzić na jakim IP stoi robot (np. poprzez menu "connect" w Choreography), ustawić IP w properties.cfg \
-i odpalić aplikację.
+Możliwe jest zasymulowanie Nao dzięki programowi webots. Wprawdzie nie ma obsługi mikrofonu i głośników, \ 
+ale w konsoli można zobaczyć tekst, jaki jest "mówiony" za pomocą tts. W tym celu należy odpalić webots, \
+sprawdzić na jakim IP znajduje się robot (np. poprzez menu "connect" w Choreography), ustawić IP w properties.cfg \
+i uruchomić aplikację.
 
 
-5. Wizja:
+4. Wizja:
 -------------------------
    
-Niniejszy dokument stanowi wizję aplikacji, która wykorzystuje możliwości robota NAO do przeglądania internetu za pomocą komunikacji głosowej.
-   
-**Cele projektu**
+**Cel projektu**
 
-Projekt ma na celu stworzenie funkcjonalnej przeglądarki głosowej dla robota NAO. Użytkownik ma możliwość zadania strony internetowej, która będzie mu odczytana zgodnie z jego żądaniami. Zostanie zbadana przydatność aplikacji do wykonywania prostych operacji na stronach WWW. Docelowo mogłaby ona znaleźć zastosowanie jako narzędzie dla osób niepełnosprawnych.
+Projekt ma na celu stworzenie funkcjonalnej przeglądarki głosowej dla robota NAO. Użytkownik ma możliwość zadania strony dowolnej internetowej, która będzie mu odczytana zgodnie z jego żądaniami. Zostanie zbadana przydatność aplikacji do wykonywania prostych operacji na stronach WWW. Docelowo mogłaby ona znaleźć zastosowanie jako narzędzie dla osób niepełnosprawnych.
    
 **Wymagania funkcjonalne**
    - Predefiniowanie adresów stron
@@ -46,7 +60,7 @@ Projekt ma na celu stworzenie funkcjonalnej przeglądarki głosowej dla robota N
 **Wymagania niefunkcjonalne**
    - Łatwa instalacja
    - Łatwa obsługa
-   - Obsługa popularnych platform (PC, Linux)
+   - Obsługa popularnych platform (Windows, Linux)
    
 **Ograniczenia programu**
    - Program będzie obsługiwał jedynie strony, które są napisane w standaryzowany sposób i da się wydzielić na nich sekcje
@@ -56,11 +70,10 @@ Projekt ma na celu stworzenie funkcjonalnej przeglądarki głosowej dla robota N
    - Java (Naoqi Java SDK)
    - Wbudowany Text To Speech
    - Wbudowany Speech Recognition
-   - Alternatywnie delegacja rozpoznawania mowy np. do chmury, jeśli powyższe nie wystarczy
 
 **Sposób działania aplikacji**
 
-Aplikacja będzie działać na zasadzie dialogu z użytkownikiem. Robot będzie nasłuchiwał, czekając na komendy. Jeśli zarejestrowany dźwięk zostanie prawidłowo zinterpretowany, wykonane zostanie zapytanie HTTP o zawartość strony. Następnie zawartość ta zostanie przeanalizowana pod kątem zawartości, co spowoduje wydzielenie sekcji. Użytkownik będzie mógł wybrać sekcję do odczytania. W każdej chwili możliwe będzie powrócenie do stanu początkowego i wybranie innej strony, czy też przerwanie obecnej operacji. Za pomocą prostych komunikatów robot będzie informował o statusie obecnej operacji lub ewentualnych błędach.
+Aplikacja będzie działać na zasadzie dialogu z użytkownikiem. Robot nasłuchuje, czekając na komendy. Jeśli zarejestrowany dźwięk zostanie prawidłowo zinterpretowany, wykonane zostanie zapytanie HTTP pobierające zawartość strony. Po analizie treści strony zostaną wydzielone poszczególne sekcje wraz z tytułami. Użytkownik będzie mógł wybrać konkretną sekcję do odczytania. W każdej chwili możliwe będzie powrócenie do stanu początkowego i wybranie innej strony, czy też przerwanie obecnej operacji. Za pomocą prostych komunikatów robot będzie informował o statusie obecnej operacji lub ewentualnych błędach.
    
 **Realizacja**
 
