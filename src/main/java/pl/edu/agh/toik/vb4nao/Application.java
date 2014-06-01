@@ -129,13 +129,18 @@ public class Application {
                         tts.say(NAODialogue.CANNOT_READ_WEBSITE);
                         state = State.STANDBY;
                     } else {
-                        tts.say(NAODialogue.READING_SECTIONS);
-                        phoneticIndexer = new PhoneticIndexer(sections.length);
-                        for (int i = 0; i < sections.length; i++) {
-                            tts.say(phoneticIndexer.identifierFor(i));
-                            tts.say(sections[i][0]);
+                        try {
+                            phoneticIndexer = new PhoneticIndexer(sections.length);
+                            tts.say(NAODialogue.READING_SECTIONS);
+                            for (int i = 0; i < sections.length; i++) {
+                                tts.say(phoneticIndexer.identifierFor(i));
+                                tts.say(sections[i][0]);
+                            }
+                            state = State.CHOOSE_SECTION;
+                        } catch (IllegalArgumentException e) {
+                            tts.say("Too many sections to read.");
+                            state = State.LISTEN_PREDEFINED;
                         }
-                        state = State.CHOOSE_SECTION;
                     }
                     break;
 

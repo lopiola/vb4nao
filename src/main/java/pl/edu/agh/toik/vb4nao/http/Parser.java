@@ -30,12 +30,24 @@ public class Parser {
     //            ...
     //    };
 
+    public String[][] map2array(HashMap<String, String> map) {
+        String[][] array = new String[map.size()][2];
+        int i = 0;
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            array[i][0] = entry.getKey();
+            array[i++][1] = entry.getValue();
+        }
+        return array;
+    }
+
     public String[][] parse(String string_url) {
         try {
             URL url = new URL(string_url);
-            String text = DefaultExtractor.INSTANCE.getText(url) + ArticleExtractor.INSTANCE.getText(url);
+            String text = DefaultExtractor.INSTANCE.getText(url);
             text = text.replaceAll("\n",".\n");
-//            StringBuilder text = new StringBuilder(DefaultExtractor.INSTANCE.getText(url));
+            text = text.replaceAll("\\.\\.|\\?\\.|!\\.|:\\.", ".");
+            text = text.replaceAll("\\.\\.\\.",".");
+            text = text.replaceAll("\\.\\.",".");
 
             // Breaking down into sentences and small filtering
             LinkedList<String> sentences = new LinkedList<>();
@@ -73,7 +85,7 @@ public class Parser {
             // Header extractions
             while (iterator.hasNext()) {
                 String sentence = iterator.next();
-                if(sentence.split(" ").length < HEADER_THRESHOLD && current_section.length() != 0) {
+                if((sentence.split(" ").length < HEADER_THRESHOLD && current_section.length() != 0) || sentence.contains("Tip")) {
                     sections.put(current_header, current_section.toString());
                     current_header = sentence;
                     current_section = new StringBuilder();
@@ -84,51 +96,8 @@ public class Parser {
             sections.put(current_header, current_section.toString());
 
             // Create an array from a map
-            String[][] array = new String[sections.size()][2];
-            int i = 0;
-            for (Map.Entry<String, String> entry : sections.entrySet()) {
-                array[i][0] = entry.getKey();
-                array[i++][1] = entry.getValue();
-//                System.out.println("Header: " + entry.getKey());
-//                System.out.println("Text: " + entry.getValue());
-//                System.out.println();
-            }
+            return map2array(sections);
 
-            return array;
-
-
-//            Document doc = Jsoup.connect(url).get();
-//            // get text
-//            Elements text = doc.select("p, h1, h2, h3, h4, h5, span");
-//
-//            Iterator<Element> it = text.iterator();
-//            while (it.hasNext()) {
-//                Element e = it.next();
-//                // add interpunction to distinct between elements
-//                if (!e.text().endsWith(".") && !e.text().endsWith("!") && !e.text().endsWith(":")) {
-//                    e.appendText(".");
-//                }
-//                // add an additional space if there is none
-//                e.appendText(" ");
-//
-//                // filter to short or obsolete paragraphs
-//                if (e.tagName().equals("p") && (e.text().length() < 5 || e.text().contains("Copyright"))) {
-//                    it.remove();
-//                }
-//            }
-//
-//
-//            StringBuilder content = new StringBuilder(doc.title() + ". " + text.text());
-//
-//            // Refining the final string
-//            for (int i = 2; i < content.length(); ++i) {
-//                if (content.substring(i - 2, i + 1).equals(". .")) {
-//                    content.replace(i - 2, i + 1, ".");
-//                }
-//            }
-//            return new String[][]{
-//                    {content.substring(content.indexOf(".")), content.toString()}
-//            };
         } catch (BoilerpipeProcessingException | MalformedURLException e) {
             e.printStackTrace();
             logger.error("Exception during parsing");

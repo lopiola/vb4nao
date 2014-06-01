@@ -20,12 +20,13 @@ public class NAODictionary {
     private static final HashMap<String, String> sites = new HashMap<>();
 
     static {
-        sites.put("ted", "http://ted.com");
-        sites.put("apple", "http://apple.com");
-        sites.put("stack", "http://stackoverflow.com");
-        sites.put("bbc", "http://bbc.co.uk");
         sites.put("wiki", "http://en.wikipedia.org/wiki/Main_Page");
         sites.put("tips", "http://www.sitepoint.com/screen-reader-usability-tips/");
+        sites.put("nytimes","http://www.nytimes.com/");
+        sites.put("newscientist","http://www.newscientist.com/section/science-news");
+        sites.put("latimes","http://www.latimes.com/");
+        sites.put("mashable","http://mashable.com/");
+        sites.put("bbc", "http://www.bbc.com/news/science_and_environment/");
     }
 
 
