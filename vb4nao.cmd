@@ -1,0 +1,1 @@
+java -Djava.library.path=lib/ -cp "%~dp0lib\*" pl.edu.agh.toik.vb4nao.Application %1
