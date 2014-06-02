@@ -39,7 +39,7 @@ Windows:
 -------------------------
 
 Możliwe jest zasymulowanie Nao dzięki programowi webots. Wprawdzie nie ma obsługi mikrofonu i głośników,
-ale w konsoli można zobaczyć tekst, jaki jest "mówiony" za pomocą tts. W tym celu należy odpalić webots,
+ale w konsoli można zobaczyć tekst, jaki jest "mówiony" za pomocą tts. W tym celu należy włączyć webots,
 sprawdzić na jakim IP znajduje się robot (np. poprzez menu "connect" w Choreography), ustawić IP w properties.cfg
 i uruchomić aplikację.
 
