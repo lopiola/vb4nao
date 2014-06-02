@@ -24,6 +24,8 @@ Projekt zostanie ściągnięty, zbudowany i wszystkie potrzebne pliki trafią do
 2. Uruchamianie aplikacji
 -------------------------
 
+Przed uruchomienie aplikacji należy upewnić się, że robot potrafi skomunikować się z komputerem oraz jest włączony i w stanie gotowości.
+
 Linux/OS X:
 
     ~$ cd release/
